@@ -29,7 +29,8 @@
 #include <ArduinoOTA.h>
 #include <ESP8266WebServer.h>
 #include <TimeLib.h>	// https://github.com/PaulStoffregen/Time)
-#include "SSD1306.h" // alias for `#include "SSD1306Wire.h"`
+// #include "SSD1306.h" // alias for `#include "SSD1306Wire.h"`
+#include "Adafruit_SSD1306.h"
 //#include <credentials.h>
 
 extern "C" {
@@ -63,7 +64,7 @@ enum sf_t { SF7 = 7, SF8, SF9, SF10, SF11, SF12 };
 uint8_t MAC_array[6];
 char MAC_char[18];
 
-#define OLED
+// #define OLED
 
 #ifdef OLED
 SSD1306  display(0x3d, D2, D1);
@@ -255,7 +256,7 @@ void setupTime() {
 // GET THE DNS SERVER IP address
 // ----------------------------------------------------------------------------
 IPAddress getDnsIP() {
-  ip_addr_t dns_ip = dns_getserver(0);
+  ip_addr_t dns_ip = dns_getserver((u8_t) 0);
   IPAddress dns = IPAddress(dns_ip.addr);
   return ((IPAddress) dns);
 }
@@ -264,7 +265,8 @@ IPAddress getDnsIP() {
 // ----------------------------------------------------------------------------
 // Read a package
 //
-// ----------------------------------------------------------------------------
+// --------------------------------------------------
+--------------------------
 int readUdp(int packetSize)
 {
   char receiveBuffer[64]; //buffer to hold incoming packet
@@ -936,10 +938,11 @@ int receivepacket(char *buff_up) {
 // ----------------------------------------------------------------------------
 String printIP(IPAddress ipa) {
   String response;
-  response += (IPAddress)ipa[0]; response += ".";
-  response += (IPAddress)ipa[1]; response += ".";
-  response += (IPAddress)ipa[2]; response += ".";
-  response += (IPAddress)ipa[3];
+    response.concat(WiFi.localIP().toString());
+    // response += (IPAddress) WiFi.localIP()[0]; response += ".";
+    // response += (IPAddress) WiFi.localIP()[1]; response += ".";
+    // response += (IPAddress) WiFi.localIP()[2]; response += ".";
+    // response += (IPAddress) WiFi.localIP()[3];
   return (response);
 }
 
@@ -1003,10 +1006,11 @@ void WifiServer(const char *cmd, const char *arg) {
   }
   if (strcmp(cmd, "IP") == 0) {										// List local IP address
     response += " local IP=";
-    response += (IPAddress) WiFi.localIP()[0]; response += ".";
-    response += (IPAddress) WiFi.localIP()[1]; response += ".";
-    response += (IPAddress) WiFi.localIP()[2]; response += ".";
-    response += (IPAddress) WiFi.localIP()[3];
+    response.concat(WiFi.localIP().toString());
+    // response += (IPAddress) WiFi.localIP()[0]; response += ".";
+    // response += (IPAddress) WiFi.localIP()[1]; response += ".";
+    // response += (IPAddress) WiFi.localIP()[2]; response += ".";
+    // response += (IPAddress) WiFi.localIP()[3];
   }
 
   if (strcmp(cmd, "GETTIME") == 0) {
