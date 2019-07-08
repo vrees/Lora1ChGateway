@@ -265,8 +265,7 @@ IPAddress getDnsIP() {
 // ----------------------------------------------------------------------------
 // Read a package
 //
-// --------------------------------------------------
---------------------------
+// ----------------------------------------------------------------------------
 int readUdp(int packetSize)
 {
   char receiveBuffer[64]; //buffer to hold incoming packet
@@ -1137,7 +1136,7 @@ void setup () {
   Serial.begin(_BAUDRATE);	// As fast as possible for bus
 
   Serial.print(F("\r\nBooting "));
-  Serial.println(ARDUINO_BOARD " " __DATE__ " " __TIME__);
+  Serial.println("PLATFORMIO_D1_MINI" " " __DATE__ " " __TIME__);
 
   if (debug >= 1) {
     Serial.print(F("! debug: "));
